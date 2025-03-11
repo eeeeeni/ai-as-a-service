@@ -1,21 +1,23 @@
 service: crawler-service
-frameworkVersion: ">=1.30.0"
+frameworkVersion: "4.7.0"
 custom:
   bucket: ${env:CHAPTER2_BUCKET}
   crawlerqueue: Chap2CrawlerQueue
   analysisqueue: Chap2AnalysisQueue
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
+  region: ${env:AWS_DEFAULT_REGION, 'ap-northeast-2'}
   accountid: ${env:AWS_ACCOUNT_ID}
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs20.x
   stage: dev
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
+  region: ap-northeast-2
   iamRoleStatements:
     - Effect: Allow
       Action:
         - s3:PutObject
+        - s3:GetObject
+        - s3:ListBucket
       Resource: "arn:aws:s3:::${self:custom.bucket}/*"
     - Effect: Allow
       Action:

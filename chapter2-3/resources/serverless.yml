@@ -1,17 +1,17 @@
 service: resources
-frameworkVersion: ">=1.30.0"
+frameworkVersion: "4.7.0"
 custom:
   bucket: ${env:CHAPTER2_BUCKET}
   crawlerqueue: Chap2CrawlerQueue
   analysisqueue: Chap2AnalysisQueue
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
+  region: ${env:AWS_DEFAULT_REGION, 'ap-northeast-2'}
   accountid: ${env:AWS_ACCOUNT_ID}
 
 provider:
   name: aws
   runtime: nodejs14.x
   stage: dev
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
+  region: ${env:AWS_DEFAULT_REGION, 'ap-northeast-2'}
 
 resources:
   Resources:
@@ -19,10 +19,15 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.bucket}
-        AccessControl: PublicRead
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
         WebsiteConfiguration:
           IndexDocument: index.html
           ErrorDocument: index.html
+
     WebAppS3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:

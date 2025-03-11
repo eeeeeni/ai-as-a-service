@@ -1,37 +1,23 @@
 service: ui-service
-frameworkVersion: ">=1.30.0"
-plugins:
-  - serverless-domain-manager
-custom:
-  bucket: ${env:CHAPTER2_BUCKET}
-  crawlerqueue: Chap2CrawlerQueue
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
-  domain: ${env:CHAPTER2_DOMAIN}
-  accountid: ${env:AWS_ACCOUNT_ID}
-  customDomain:
-    domainName: 'chapter2api.${self:custom.domain}'
-    stage: dev
-    basePath: api
-    certificateName: '*.${self:custom.domain}'
-    createRoute53Record: true
-    endpointType: regional
+frameworkVersion: "4.7.0"
 
 provider:
   name: aws
-  runtime: nodejs12.x
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
+  runtime: nodejs20.x
+  region: ap-northeast-2  # 리전 고정
   iamRoleStatements:
     - Effect: Allow
       Action:
         - s3:PutObject
         - s3:GetObject
-      Resource: "arn:aws:s3:::${self:custom.bucket}/*"
+        - s3:ListBucket 
+      Resource: "arn:aws:s3:::${env:CHAPTER2_BUCKET}/*"
     - Effect: Allow
       Action:
         - sqs:SendMessage
         - sqs:DeleteMessage
         - sqs:GetQueueUrl
-      Resource: "arn:aws:sqs:*:*:${self:custom.crawlerqueue}"
+      Resource: "arn:aws:sqs:*:*:${env:CHAPTER2_CRAWLERQUEUE}"
     - Effect: Allow
       Action:
         - sqs:ListQueues
@@ -41,31 +27,32 @@ functions:
   analyzeUrl:
     handler: handler.analyzeUrl
     environment:
-      BUCKET: ${self:custom.bucket}
-      QUEUE: ${self:custom.crawlerqueue}
-      REGION: ${self:custom.region}
-      ACCOUNTID: ${self:custom.accountid}
+      BUCKET: ${env:CHAPTER2_BUCKET}
+      QUEUE: ${env:CHAPTER2_CRAWLERQUEUE}
+      REGION: ${env:AWS_DEFAULT_REGION, 'ap-northeast-2'}
+      ACCOUNTID: ${env:AWS_ACCOUNT_ID}
     events:
       - http:
           path: url/analyze
           method: post
           cors: true
+
   listUrls:
     handler: handler.listUrls
     environment:
-      BUCKET: ${self:custom.bucket}
+      BUCKET: ${env:CHAPTER2_BUCKET}
     events:
       - http:
           path: url/list
           method: get
           cors: true
+
   listImages:
     handler: handler.listImages
     environment:
-      BUCKET: ${self:custom.bucket}
+      BUCKET: ${env:CHAPTER2_BUCKET}
     events:
       - http:
           path: image/list
           method: get
           cors: true
-

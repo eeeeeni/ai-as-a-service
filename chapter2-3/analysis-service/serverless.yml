@@ -1,15 +1,16 @@
 service: analysis-service
-frameworkVersion: ">=1.30.0"
+frameworkVersion: "4.7.0"
 custom:
   bucket: ${env:CHAPTER2_BUCKET}
   analysisqueue: Chap2AnalysisQueue
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
+  region: ${env:AWS_DEFAULT_REGION, 'ap-northeast-2'}
   accountid: ${env:AWS_ACCOUNT_ID}
+
 
 provider:
   name: aws
-  runtime: nodejs14.x
-  region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
+  runtime: nodejs20.x
+  region: ap-northeast-2
   memorySize: 512
   timeout: 10
   stage: dev

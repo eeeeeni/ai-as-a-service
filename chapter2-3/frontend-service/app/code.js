@@ -1,8 +1,8 @@
 /* globals $:false imageListItemTpl:false imageListTpl:false WordCloud:false Chart:false */
 "use strict";
 
-const BUCKET_ROOT = "<사용할 버켓 주소>"; // 주소 형태: https://s3-eu-west-1.amazonaws.com/<YOUR BUCKET NAME>
-const API_ROOT = "https://chapter2api.<사용할 도메인>/api/";
+const BUCKET_ROOT = 'https://s3-ap-northeast-2.amazonaws.com/eeeniaitestbk'
+const API_ROOT = 'https://chapter2api.eeeni.store/api/'
 
 function displayableUrl(url) {
   let disp = url;

@@ -24,7 +24,7 @@ function readStatus (folder) {
 
 function respond (code, body, cb) {
   const response = {
-    statusCode: code,
+    statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
