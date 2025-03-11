@@ -1,7 +1,11 @@
+// 할 일 목록의 화면 렌더링 형성
+// 데이터를 받아서 화면에 표시하는 역할
 'use strict'
 
+// 여러 개의 함수를 외부에서 사용할 수 있도록 내보내는 역할로 해당 파일을 다른 자바스크립트 파일에서 불러와 사용 가능
 export { todoListTpl, editTpl, addTpl, errTpl, navBarTpl, navBarScheduleTpl }
 
+// 개별적인 할일 항목을 만드는 함수
 function todoItemTpl (item) {
   return `
     <div id="${item.id}" class="row list-group-item d-flex justify-content-between align-items-center">
@@ -15,14 +19,15 @@ function todoItemTpl (item) {
     </div>`
 }
 
-
+// 전체 할일 목록을 만드는 함수
+// forEach 함수를 사용하여 각 항목을 todoItemTpl 함수로 전달하여 항목을 만들고 이를 output 변수에 추가
 function todoListTpl (items) {
   let output = ''
   items.forEach(item => {
     output += todoItemTpl(item)
   })
 
-
+// 위에서 생성한 항목을 포함하는 전체 할일 목록을 만들어 반환
   return `
   <div id="todo-list">
     <div class="row list-group-item d-flex justify-content-between align-items-center">
@@ -43,7 +48,7 @@ function todoListTpl (items) {
   </div>`
 }
 
-
+// 할일 항목을 수정하는 화면을 만드는 함수
 function editTpl () {
   return `
     <div class="row">&nbsp;</div>
